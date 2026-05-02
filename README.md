@@ -3,6 +3,9 @@ Simulazione completa di una piccola unità di produzione industriale, comprensiv
 
 <img width="1064" height="733" alt="immagine" src="https://github.com/user-attachments/assets/998a6494-6184-454a-a461-c5813d01685a" />
 
+![C#](https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=c-sharp&logoColor=white)
+![WPF](https://img.shields.io/badge/WPF-5C2D91?style=for-the-badge&logo=windows&logoColor=white)
+![XAML](https://img.shields.io/badge/XAML-0C54C2?style=for-the-badge&logo=xml&logoColor=white)
 
 ## FC01 — Read Coils (lettura/uscite PLC simulatore + stessa area per comando da master)
 
