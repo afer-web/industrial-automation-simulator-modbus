@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{FB49A0A0-56C5-47E0-8478-886293733594}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModbusAutomationSimulator.Dashboard", "src\ModbusAutomationSimulator.Dashboard\ModbusAutomationSimulator.Dashboard.csproj", "{ADC698BE-DAE8-47A0-869C-E967D75C8B4A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModbusAutomationSimulator.Core", "src\ModbusAutomationSimulator.Core\ModbusAutomationSimulator.Core.csproj", "{DCEC1A85-E74D-4005-A044-9E074F12F6C9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModbusAutomationSimulator.Infrastructure", "src\ModbusAutomationSimulator.Infrastructure\ModbusAutomationSimulator.Infrastructure.csproj", "{67BB5AF2-6590-4D4F-9EE9-F126A8AC0DAE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModbusAutomationSimulator.Modbus", "src\ModbusAutomationSimulator.Modbus\ModbusAutomationSimulator.Modbus.csproj", "{B0DAADCF-217C-49BD-ADC3-4752E0BDE310}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModbusAutomationSimulator.API", "src\ModbusAutomationSimulator.API\ModbusAutomationSimulator.API.csproj", "{6DA6DFE6-6CB4-4A61-BE06-9A92F14F32D6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ADC698BE-DAE8-47A0-869C-E967D75C8B4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADC698BE-DAE8-47A0-869C-E967D75C8B4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ADC698BE-DAE8-47A0-869C-E967D75C8B4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADC698BE-DAE8-47A0-869C-E967D75C8B4A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DCEC1A85-E74D-4005-A044-9E074F12F6C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCEC1A85-E74D-4005-A044-9E074F12F6C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCEC1A85-E74D-4005-A044-9E074F12F6C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCEC1A85-E74D-4005-A044-9E074F12F6C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67BB5AF2-6590-4D4F-9EE9-F126A8AC0DAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67BB5AF2-6590-4D4F-9EE9-F126A8AC0DAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67BB5AF2-6590-4D4F-9EE9-F126A8AC0DAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67BB5AF2-6590-4D4F-9EE9-F126A8AC0DAE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0DAADCF-217C-49BD-ADC3-4752E0BDE310}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0DAADCF-217C-49BD-ADC3-4752E0BDE310}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0DAADCF-217C-49BD-ADC3-4752E0BDE310}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0DAADCF-217C-49BD-ADC3-4752E0BDE310}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6DA6DFE6-6CB4-4A61-BE06-9A92F14F32D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DA6DFE6-6CB4-4A61-BE06-9A92F14F32D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DA6DFE6-6CB4-4A61-BE06-9A92F14F32D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DA6DFE6-6CB4-4A61-BE06-9A92F14F32D6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{ADC698BE-DAE8-47A0-869C-E967D75C8B4A} = {FB49A0A0-56C5-47E0-8478-886293733594}
+		{DCEC1A85-E74D-4005-A044-9E074F12F6C9} = {FB49A0A0-56C5-47E0-8478-886293733594}
+		{67BB5AF2-6590-4D4F-9EE9-F126A8AC0DAE} = {FB49A0A0-56C5-47E0-8478-886293733594}
+		{B0DAADCF-217C-49BD-ADC3-4752E0BDE310} = {FB49A0A0-56C5-47E0-8478-886293733594}
+		{6DA6DFE6-6CB4-4A61-BE06-9A92F14F32D6} = {FB49A0A0-56C5-47E0-8478-886293733594}
+	EndGlobalSection
+EndGlobal
