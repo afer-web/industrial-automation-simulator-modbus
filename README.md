@@ -10,8 +10,8 @@ Simulazione completa di una piccola unità di produzione industriale, comprensiv
 
 ## FC01 — Read Coils (lettura/uscite PLC simulatore + stessa area per comando da master)
 
-Su questa slave le **bobine** sono **un unico buffer**: contengono sia le **uscite** emulate (primitive indirizzi 0…) sia i **comandi** supervisor (dal conf. indirizzo **96**).  
-Puoi leggere tutto con **FC01**. Le bobine comando **FC05** vengono azzerate dall’RTS dopo il consumo (impulsi).
+Su questa slave, le **bobine** sono **un unico buffer**: contengono sia le **uscite** emulate (primitive indirizzi 0…) che i **comandi** supervisor (dal conf. indirizzo **96**).  
+SI può leggere tutto con **FC01**. Le bobine comando **FC05** vengono azzerate dall’RTS dopo il consumo (impulsi).
 
 ### Uscite / indicazioni (simulate)
 
@@ -24,9 +24,9 @@ Puoi leggere tutto con **FC01**. Le bobine comando **FC05** vengono azzerate dal
 | 4          | 00005               | Torretta ambra            | 1 = ciclo / stato intermedio                 |
 | 5          | 00006               | Torretta rossa            | 1 = presenza alarm/fault sintetizzato        |
 
-### Comandi verso simulator (SCR/HMI → scrittura FC05 sugli offset sotto)
+### Comandi verso il simulatore (SCR/HMI → scrittura FC05 sugli offset sotto)
 
-*Usare **`1`** sul bit e attendere handshake: molte bobine vengono **reset a 0** dal software dopo elaborazione.*
+*Usare **`1`** sul bit e attendere handshake: molte bobine vengono **resettate a 0** dal software dopo elaborazione.*
 
 | Offset PDU | Alias Modicon | Comando                                      |
 |-----------:|---------------|----------------------------------------------|
@@ -65,7 +65,7 @@ Puoi leggere tutto con **FC01**. Le bobine comando **FC05** vengono azzerate dal
 
 ## FC03 / FC16 — Holding Registers (stato ciclo / contatori / allarmi)
 
-Tutti i word **16-bit**. I contatori **`uint32`** usano **due registri LE**: **Low word prima, High word dopo** (`Lo` indirizzo N, `Hi` indirizzo N+1).
+Tutte le word sono a **16-bit**. I contatori **`uint32`** usano **due registri LE**: **Low word prima, High word dopo** (`Lo` indirizzo N, `Hi` indirizzo N+1).
 
 **Valore 32-bit** = `Lo + (Hi << 16)` (interpretazione little-endian a livello di word).
 
@@ -94,7 +94,7 @@ Collegamento allo **slave TCP** configurato nell’app (Dashboard/API), sezione 
 | Porta TCP       | **`502`** (se non modificata in config)|
 | Slave / Unit ID | **`0`** (unità singola FluentModbus)   |
 
-Nei simulatori Modbus (**Modbus Poll**, QmodMaster, ecc.) scegliere la **funzione** corretta (`01`, `02`, `03`, `04`), poi il **punto di inizio**.  
+Nei tool di test Modbus (es: **Modbus Poll**, QmodMaster, ecc.) scegliere la **funzione** corretta (`01`, `02`, `03`, `04`), poi il **punto di inizio**.  
 Due convenzioni comuni:
 
 - **Offset 0 nel PDU** (“address” = primo elemento a **0**) — compatibile col codice e con molti client se imposti “PLC addressing” **Base 0**.
