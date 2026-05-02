@@ -1,6 +1,9 @@
 # Industrial-automation-simulator-modbus
 Simulazione completa di una piccola unità di produzione industriale, comprensiva di nastro trasportatore, unità di elaborazione, controllo qualità e magazzino. Espone gli stati della macchina, i sensori, gli attuatori, gli allarmi e i contatori tramite un server Modbus TCP simulato. Include una dashboard in tempo reale realizzata con WPF e un backend .NET basato su Clean Architecture.
 
+<img width="1064" height="733" alt="immagine" src="https://github.com/user-attachments/assets/998a6494-6184-454a-a461-c5813d01685a" />
+
+
 ## FC01 — Read Coils (lettura/uscite PLC simulatore + stessa area per comando da master)
 
 Su questa slave le **bobine** sono **un unico buffer**: contengono sia le **uscite** emulate (primitive indirizzi 0…) sia i **comandi** supervisor (dal conf. indirizzo **96**).  
