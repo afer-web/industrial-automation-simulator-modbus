@@ -96,8 +96,5 @@ Due convenzioni comuni:
 - **Offset 0 nel PDU** (“address” = primo elemento a **0**) — compatibile col codice e con molti client se imposti “PLC addressing” **Base 0**.
 - Numerazione **stile Modicon** (opzionale): bobina **`00001`** = offset **0**, holding **`40001`** = offset **0**, ecc.
 
-Di seguito **offset 0-based** (PDU), come nei costanti interni (`IndustrialModbusAddressPlan`).  
-*Nella Tabella viene indicata anche la notazione coils `0xxxx` / input `1xxxx` / input reg `3xxxx` / holding `4xxxx` solo come riferimento tipico.*
-
 ---
 
