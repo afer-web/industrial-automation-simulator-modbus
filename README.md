@@ -11,7 +11,7 @@ The project includes a real‑time dashboard built with WPF and a .NET backend f
 
 <img width="1064" height="733" alt="immagine" src="https://github.com/user-attachments/assets/998a6494-6184-454a-a461-c5813d01685a" />
 
-## FC01 — Read Coils (a unified Modbus memory map that exposes simulated PLC inputs/outputs and also accepts commands from an external master).
+## FC01 - Read Coils
 
 On this slave, the coils are exposed as a single contiguous buffer: they contain both the emulated outputs (starting at address 0…) and the supervisor commands (from configured address 96 onward).
 The entire area can be read using FC01.
