@@ -28,7 +28,8 @@ Simulated Outputs / Status Indicators
 | 4          | 00005               | Amber tower light         | 1 = cycle running / intermediate state       |
 | 5          | 00006               | Red tower light           | 1 = alarm / fault present (consolidated)     |
 
-# Commands to the simulator (SCR/HMI → FC05 writes to the offsets below)
+# Commands to the simulator 
+(SCR/HMI → FC05 writes to the offsets below)
 
 *Use **`1`** on the bit and wait for the handshake: many command coils are reset to **`0`** by the software after processing*
 
