@@ -3,7 +3,7 @@
 ![WPF](https://img.shields.io/badge/WPF-5C2D91?style=for-the-badge&logo=windows&logoColor=white)
 ![XAML](https://img.shields.io/badge/XAML-F28C28?style=for-the-badge&logo=xml&logoColor=white)
 
-# Industrial-automation-simulator-modbus
+# Industrial Automation Simulator - Modbus
 
 Complete simulation of a small industrial production unit, including a conveyor belt, processing station, quality control module, and storage area.
 It exposes machine states, sensors, actuators, alarms, and counters through a simulated Modbus TCP server.
