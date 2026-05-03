@@ -1,104 +1,107 @@
 ![.NET](https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=dotnet&logoColor=white)
 ![C#](https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=c-sharp&logoColor=white)
 ![WPF](https://img.shields.io/badge/WPF-5C2D91?style=for-the-badge&logo=windows&logoColor=white)
-![XAML](https://img.shields.io/badge/XAML-0C54C2?style=for-the-badge&logo=xml&logoColor=white)
+![Modbus](https://img.shields.io/badge/Modbus-00A000?style=for-the-badge&logo=modbus&logoColor=white)
 
 # Industrial-automation-simulator-modbus
-Simulazione completa di una piccola unità di produzione industriale, comprensiva di nastro trasportatore, unità di elaborazione, controllo qualità e magazzino. Espone gli stati della macchina, i sensori, gli attuatori, gli allarmi e i contatori tramite un server Modbus TCP simulato. Include una dashboard in tempo reale realizzata con WPF e un backend .NET basato su Clean Architecture.
+
+Complete simulation of a small industrial production unit, including a conveyor belt, processing station, quality control module, and storage area.
+It exposes machine states, sensors, actuators, alarms, and counters through a simulated Modbus TCP server.
+The project includes a real‑time dashboard built with WPF and a .NET backend following Clean Architecture principles.
 
 <img width="1064" height="733" alt="immagine" src="https://github.com/user-attachments/assets/998a6494-6184-454a-a461-c5813d01685a" />
 
-## FC01 — Read Coils (lettura/uscite PLC simulatore + stessa area per comando da master)
+## FC01 — Read Coils (a unified Modbus memory map that exposes simulated PLC inputs/outputs and also accepts commands from an external master).
 
-Su questa slave, le **bobine** sono **un unico buffer**: contengono sia le **uscite** emulate (primitive indirizzi 0…) che i **comandi** supervisor (dal conf. indirizzo **96**).  
-SI può leggere tutto con **FC01**. Le bobine comando **FC05** vengono azzerate dall’RTS dopo il consumo (impulsi).
+On this slave, the coils are exposed as a single contiguous buffer: they contain both the emulated outputs (starting at address 0…) and the supervisor commands (from configured address 96 onward).
+The entire area can be read using FC01.
+Command coils written via FC05 are automatically reset by the RTS after being consumed (pulse‑type behavior).
 
-### Uscite / indicazioni (simulate)
+Simulated Outputs / Status Indicators
 
-| Offset PDU | Alias Modicon coils | Funzione sintetica        | Interpretazione lettura                      |
+| Bit index  | Coil address        | Description               | Meaning when 1                               |
 |-----------:|---------------------|---------------------------|----------------------------------------------|
-| 0          | 00001               | Conveyor motor ON         | 1 = motore traslazione attivo                |
-| 1          | 00002               | Stazione hydraulic/clamp  | 1 = idraulica/braccio attivi                 |
-| 2          | 00003               | Scarto diverter           | 1 = deviatore scarto ON                      |
-| 3          | 00004               | Torretta verde            | 1 = stato “OK/laboratorio idle” sintetizzato |
-| 4          | 00005               | Torretta ambra            | 1 = ciclo / stato intermedio                 |
-| 5          | 00006               | Torretta rossa            | 1 = presenza alarm/fault sintetizzato        |
+| 0          | 00001               | Conveyor motor ON         | 1 = conveyor drive active                    |
+| 1          | 00002               | Hydraulic / clamp station | 1 = hydraulic unit / clamp arm engaged       |
+| 2          | 00003               | Reject diverter           | 1 = reject diverter activated                |
+| 3          | 00004               | Green tower light         | 1 = “OK / lab idle” consolidated status      |
+| 4          | 00005               | Amber tower light         | 1 = cycle running / intermediate state       |
+| 5          | 00006               | Red tower light           | 1 = alarm / fault present (consolidated)     |
 
-### Comandi verso il simulatore (SCR/HMI → scrittura FC05 sugli offset sotto)
+### Commands to the simulator (SCR/HMI → FC05 writes to the offsets below)
 
-*Usare **`1`** sul bit e attendere handshake: molte bobine vengono **resettate a 0** dal software dopo elaborazione.*
+*Use **`1`** on the bit and wait for the handshake: many command coils are reset to **`0`** by the software after processing*
 
-| Offset PDU | Alias Modicon | Comando                                      |
-|-----------:|---------------|----------------------------------------------|
-| 96         | 00097         | START automatico (impulso)                   |
-| 97         | 00098         | STOP morbido (**mantenuto** mentre =1)       |
-| 98         | 00099         | Emergency stop (**mantenuto** mentre =1)     |
-| 99         | 00100         | Reset sicurezza / fault (impulso)            |
-| 100        | 00101         | Fault injection (impulso)                    |
-| 101        | 00102         | Ack allarmi (impulso)                        |
-
-
----
-
-## FC02 — Read Discrete Inputs (ingressi / sensori simulati)
-
-| Offset PDU | Alias Modicon DI | Sensore                                      |
-|-----------:|------------------|----------------------------------------------|
-| 0          | 10001            | Feedback nastro ON (motor running)           |
-| 1          | 10002            | Pezzo zona ingresso nastro                   |
-| 2          | 10003            | Pezzo zona stazione                          |
-| 3          | 10004            | Sensore clamp chiuso / agganciamento         |
-| 4          | 10005            | Lane misura QC attiva                        |
-| 5          | 10006            | Lane magazzino uscita ready                  |
+| Offset PDU | Alias Modicon | Command                                      |
+|------------|---------------|----------------------------------------------|
+| 96         | 00097         | START automatic (pulse)                      |
+| 97         | 00098         | Soft STOP (**held** while =1)                |
+| 98         | 00099         | Emergency stop (**held** while =1)           |
+| 99         | 00100         | Safety / fault reset (pulse)                 |
+| 100        | 00101         | Fault injection (pulse)                      |
+| 101        | 00102         | Alarm acknowledge (pulse)                    |
 
 ---
 
-## FC04 — Read Input Registers (16 bit, read-only — analog sintetizzati)
+## FC02 — Read Discrete Inputs (simulated inputs / sensors)
 
-| Offset PDU | Alias Modicon IR | Scala / sintesi della lettura                                      |
-|-----------:|------------------|--------------------------------------------------------------------|
-| 0          | 30001            | Velocità nastro: **`0 … 1000`** ≈ premille (**1000 ≈ 100%**)       |
-| 1          | 30002            | Temperatura stazione: **valore_UI / 10** ≈ °C (campo sintetico)    |
-| 2          | 30003            | Pressione idraulica: **valore_UI / 10** ≈ bar (campo sintetico)    |
-
----
-
-## FC03 / FC16 — Holding Registers (stato ciclo / contatori / allarmi)
-
-Tutte le word sono a **16-bit**. I contatori **`uint32`** usano **due registri LE**: **Low word prima, High word dopo** (`Lo` indirizzo N, `Hi` indirizzo N+1).
-
-**Valore 32-bit** = `Lo + (Hi << 16)` (interpretazione little-endian a livello di word).
-
-| Offset PDU | Alias Modicon HR | Contenuto                                                |
-|-----------:|------------------|----------------------------------------------------------|
-| 0          | 40001            | Stato macchina (`MachineState` enum come `ushort`)       |
-| 1          | 40002            | Bitmask stato (allarmi, ciclo, torretta, halt, E-Stop…)  |
-| 2          | 40003            | Contatore **pezzi OK** — **WORD bassa** (`uint32` LE)    |
-| 3          | 40004            | Contatore **pezzi OK** — **WORD alta**                   |
-| 4          | 40005            | Contatore **scarti** — **WORD bassa**                    |
-| 5          | 40006            | Contatore **scarti** — **WORD alta**                     |
-| 6          | 40007            | Tempo **fase corrente** (ms, saturazione `ushort`)       |
-| 7          | 40008            | Tempo da **tick ciclo cumulativo** (ms aggregato sintet.)|
-| 8          | 40009            | Codice **allarme PLC** più rilevante (0 = assente; vedi enum `AlarmCode` nel Core). |
+| Offset PDU | Alias Modicon DI | Sensor                                       |
+|------------|------------------|----------------------------------------------|
+| 0          | 10001            | Conveyor ON feedback (motor running)         |
+| 1          | 10002            | Piece at conveyor entry zone                 |
+| 2          | 10003            | Piece at processing station                  |
+| 3          | 10004            | Clamp closed / engagement sensor             |
+| 4          | 10005            | QC measurement lane active                   |
+| 5          | 10006            | Storage lane exit ready                      |
 
 ---
 
-# Verifica registri Modbus
+## FC04 — Read Input Registers (16 bit, read‑only — synthesized analog values)
 
-Collegamento allo **slave TCP** configurato nell’app (Dashboard/API), sezione **`IndustrialModbus`** in `appsettings.json`:
+| Offset PDU | Alias Modicon IR | Scale / synthesized reading                                   |
+|------------|------------------|---------------------------------------------------------------|
+| 0          | 30001            | Conveyor speed: **`0 … 1000`** ≈ permille (**1000 ≈ 100%**)   |
+| 1          | 30002            | Station temperature: **value_UI / 10** ≈ °C (synthetic field) |
+| 2          | 30003            | Hydraulic pressure: **value_UI / 10** ≈ bar (synthetic field) |
 
-| Parametro       | Default tipico                         |
-|---------------- |----------------------------------------|
-| Protocollo      | Modbus TCP / RTU-over-TCP (**TCP**)    |
-| Indirizzo IP    | localhost o IP della macchina          |
-| Porta TCP       | **`502`** (se non modificata in config)|
-| Slave / Unit ID | **`0`** (unità singola FluentModbus)   |
+---
 
-Nei tool di test Modbus (es: **Modbus Poll**, QmodMaster, ecc.) scegliere la **funzione** corretta (`01`, `02`, `03`, `04`), poi il **punto di inizio**.  
-Due convenzioni comuni:
+## FC03 / FC16 — Holding Registers (cycle state / counters / alarms)
 
-- **Offset 0 nel PDU** (“address” = primo elemento a **0**) — compatibile col codice e con molti client se imposti “PLC addressing” **Base 0**.
-- Numerazione **stile Modicon** (opzionale): bobina **`00001`** = offset **0**, holding **`40001`** = offset **0**, ecc.
+All words are **16‑bit**. The **`uint32`** counters use **two LE registers**: **Low word first, High word after** (`Lo` at address N, `Hi` at address N+1).
+
+**32‑bit value** = `Lo + (Hi << 16)` (little‑endian interpretation at word level).
+
+| Offset PDU | Alias Modicon HR | Content                                                                    |
+|-----------:|------------------|----------------------------------------------------------------------------|
+| 0          | 40001            | Machine state (`MachineState` enum as `ushort`)                            |
+| 1          | 40002            | State bitmask (alarms, cycle, tower light, halt, E‑Stop…)                  |
+| 2          | 40003            | **OK pieces** counter — **low WORD** (`uint32` LE)                         |
+| 3          | 40004            | **OK pieces** counter — **high WORD**                                      |
+| 4          | 40005            | **Rejects** counter — **low WORD**                                         |
+| 5          | 40006            | **Rejects** counter — **high WORD**                                        |
+| 6          | 40007            | **Current phase** time (ms, `ushort` saturation)                           |
+| 7          | 40008            | **Cumulative cycle tick** time (aggregated ms, synth.)                     |
+| 8          | 40009            | Most relevant **PLC alarm code** (0 = none; see `AlarmCode` enum in Core)  |
+
+---
+
+# Modbus Registers Verification
+
+Connection to the **TCP slave** configured in the app (Dashboard/API), section **`IndustrialModbus`** in `appsettings.json`:
+
+| Parametro       | Typical default                           |
+|---------------- |-------------------------------------------|
+| Protocollo      | Modbus TCP / RTU-over-TCP (**TCP**)       |
+| Indirizzo IP    | localhost or machine IP                   |
+| Porta TCP       | **`502`** (if not changed in config)      |
+| Slave / Unit ID | **`0`** (single FluentModbus unit)        |
+
+In Modbus testing tools (e.g., **Modbus Poll**, QModMaster, etc.) select the correct **function** (`01`, `02`, `03`, `04`), then the **starting point`.
+Two common conventions:
+
+- **Offset 0 in the PDU** (“address” = first element at **0**) — compatible with the code and with many clients if you set “PLC addressing” to **Base 0**.
+- **Modicon‑style numbering** (optional): coil **`00001`** = offset **0**, holding **`40001`** = offset **0**, etc.
 
 ---
 
