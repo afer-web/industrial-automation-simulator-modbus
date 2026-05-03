@@ -11,7 +11,7 @@ The project includes a real‑time dashboard built with WPF and a .NET backend f
 
 <img width="1064" height="733" alt="immagine" src="https://github.com/user-attachments/assets/998a6494-6184-454a-a461-c5813d01685a" />
 
-FC01 - Read Coils
+# FC01 - Read Coils
 
 On this slave, the coils are exposed as a single contiguous buffer: they contain both the emulated outputs (starting at address 0…) and the supervisor commands (from configured address 96 onward).
 The entire area can be read using FC01.
@@ -43,7 +43,7 @@ Simulated Outputs / Status Indicators
 
 ---
 
-FC02 — Read Discrete Inputs (simulated inputs / sensors)
+# FC02 — Read Discrete Inputs (simulated inputs / sensors)
 
 | Offset PDU | Alias Modicon DI | Sensor                                       |
 |------------|------------------|----------------------------------------------|
@@ -56,7 +56,7 @@ FC02 — Read Discrete Inputs (simulated inputs / sensors)
 
 ---
 
-FC04 — Read Input Registers (16 bit, read‑only — synthesized analog values)
+# FC04 — Read Input Registers (16 bit, read‑only — synthesized analog values)
 
 | Offset PDU | Alias Modicon IR | Scale / synthesized reading                                   |
 |------------|------------------|---------------------------------------------------------------|
@@ -66,7 +66,7 @@ FC04 — Read Input Registers (16 bit, read‑only — synthesized analog values
 
 ---
 
-FC03 / FC16 — Holding Registers (cycle state / counters / alarms)
+# FC03 / FC16 — Holding Registers (cycle state / counters / alarms)
 
 All words are **16‑bit**. The **`uint32`** counters use **two LE registers**: **Low word first, High word after** (`Lo` at address N, `Hi` at address N+1).
 
@@ -86,7 +86,7 @@ All words are **16‑bit**. The **`uint32`** counters use **two LE registers**: 
 
 ---
 
-## Modbus Registers Verification
+# Modbus Registers Verification
 
 Connection to the **TCP slave** configured in the app (Dashboard/API), section **`IndustrialModbus`** in `appsettings.json`:
 
