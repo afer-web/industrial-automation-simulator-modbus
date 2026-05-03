@@ -90,11 +90,11 @@ All words are **16‑bit**. The **`uint32`** counters use **two LE registers**: 
 
 Connection to the **TCP slave** configured in the app (Dashboard/API), section **`IndustrialModbus`** in `appsettings.json`:
 
-| Parametro       | Typical default                           |
+| Parameter       | Typical default                           |
 |---------------- |-------------------------------------------|
-| Protocollo      | Modbus TCP / RTU-over-TCP (**TCP**)       |
-| Indirizzo IP    | localhost or machine IP                   |
-| Porta TCP       | **`502`** (if not changed in config)      |
+| Protocol        | Modbus TCP / RTU-over-TCP (**TCP**)       |
+| IP Address      | localhost or machine IP                   |
+| TCP Port        | **`502`** (if not changed in config)      |
 | Slave / Unit ID | **`0`** (single FluentModbus unit)        |
 
 In Modbus testing tools (e.g., **Modbus Poll**, QModMaster, etc.) select the correct **function** (`01`, `02`, `03`, `04`), then the **starting point`.
