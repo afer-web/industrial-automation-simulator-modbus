@@ -1,7 +1,7 @@
 ![.NET](https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=dotnet&logoColor=white)
 ![C#](https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=c-sharp&logoColor=white)
 ![WPF](https://img.shields.io/badge/WPF-5C2D91?style=for-the-badge&logo=windows&logoColor=white)
-![Modbus](https://img.shields.io/badge/Modbus-00A000?style=for-the-badge&logo=modbus&logoColor=white)
+![XAML](https://img.shields.io/badge/XAML-F28C28?style=for-the-badge&logo=xml&logoColor=white)
 
 # Industrial-automation-simulator-modbus
 
